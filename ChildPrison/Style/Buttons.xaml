@@ -1,0 +1,105 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="MenuRadioButton" TargetType="RadioButton">
+        <Setter Property="Margin" Value="0,5,0,5"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <Grid x:Name="grid" Width="205" Height="105">
+                        <Border Width="200" Height="100" Background="Black" 
+                            VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                            BorderBrush="Black" BorderThickness="2"
+                            x:Name="shadow"/>
+
+                        <Border Width="200" Height="100" Background="#39dcff" 
+                            VerticalAlignment="Top" HorizontalAlignment="Left" 
+                            BorderBrush="Black" BorderThickness="2"
+                            x:Name="content">
+
+                            <TextBlock Margin="15, 0, 0, 0" Text="{TemplateBinding Property=Content}" 
+                                   VerticalAlignment="Center" FontSize="20" HorizontalAlignment="Left"
+                                   FontWeight="Black" TextWrapping="WrapWithOverflow"
+                                   x:Name="text"/>
+                        </Border>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="grid" Property="Width" Value="210"/>
+                            <Setter TargetName="grid" Property="Height" Value="110"/>
+                            <Setter TargetName="content" Property="Background" Value="#fbc02d"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="RegistrationRadioButton" TargetType="RadioButton">
+        <Setter Property="Margin" Value="0,5,0,5"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <Grid x:Name="grid" Background="Transparent">
+                        <Border Background="Black"
+                                Margin="3,3,0,0"
+                                BorderBrush="Black" BorderThickness="2"
+                                x:Name="shadow"/>
+
+                        <Border Background="#3adcff" 
+                                Margin="0,0,3,3"
+                                BorderBrush="Black" BorderThickness="2"
+                                x:Name="border">
+                            <ContentPresenter Margin="0,0,0,3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#fbc02d"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="ExitButton">
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid x:Name="grid" Background="Transparent">
+                        <Border Background="Black"
+                                Margin="3,3,0,0"
+                                BorderBrush="Black" BorderThickness="2"
+                                x:Name="shadow"/>
+
+                        <Border Background="{TemplateBinding Property=Background}" 
+                                Margin="0,0,3,3"
+                                BorderBrush="Black" BorderThickness="2"
+                                x:Name="border">
+
+                            <ContentPresenter Margin="0,0,0,3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="White"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="White"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
