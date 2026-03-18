@@ -75,6 +75,7 @@
                     <Grid x:Name="grid" Background="Transparent">
                         <Border Background="Black"
                                 Margin="3,3,0,0"
+                                
                                 BorderBrush="Black" BorderThickness="2"
                                 x:Name="shadow"/>
 

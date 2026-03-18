@@ -50,7 +50,7 @@
                             <Border Background="White" Height="40" 
                                     BorderBrush="Black" BorderThickness="2" Margin="0,0,5,5">
 
-                                <TextBox FontWeight="Medium" FontSize="16" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" BorderThickness="0" MinWidth="330"/>
+                                <TextBox Name="LoginBox" FontWeight="Medium" FontSize="16" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" BorderThickness="0" MinWidth="330"/>
                             </Border>
                         </Grid>
 
@@ -62,24 +62,24 @@
                             <Border Background="White" Height="40" 
                                     BorderBrush="Black" BorderThickness="2" Margin="0,0,5,5">
 
-                                <TextBox FontWeight="Medium" VerticalContentAlignment="Center" FontSize="16"  HorizontalAlignment="Left" Margin="5,0,0,0" BorderThickness="0" MinWidth="330"/>
+                                <TextBox Name="PassBox" FontWeight="Medium" VerticalContentAlignment="Center" FontSize="16"  HorizontalAlignment="Left" Margin="5,0,0,0" BorderThickness="0" MinWidth="330"/>
                             </Border>
                         </Grid>
 
-                        <TextBlock FontWeight="Black" Text="Ключ:" FontSize="24"/>
-                        <Grid Margin="0,0,0,20" >
+                        <TextBlock Name="KeyLbl" FontWeight="Black" Text="Ключ:" FontSize="24"/>
+                        <Grid Name="KeyGrid" Margin="0,0,0,20" >
                             <Border  Background="Black"  Margin="5,5,0,0"
              BorderBrush="Black" BorderThickness="2"/>
 
-                            <Border Background="White" Height="40" 
+                            <Border Name="KeyBorder" Background="White" Height="40" 
             BorderBrush="Black" BorderThickness="2" Margin="0,0,5,5">
 
-                                <TextBox FontWeight="Medium" VerticalContentAlignment="Center" FontSize="16"  HorizontalAlignment="Left" Margin="5,0,0,0" BorderThickness="0" MinWidth="330"/>
+                                <TextBox Name="KeyBox" FontWeight="Medium" VerticalContentAlignment="Center" FontSize="16"  HorizontalAlignment="Left" Margin="5,0,0,0" BorderThickness="0" MinWidth="330"/>
                             </Border>
                         </Grid>
 
-                        <RadioButton GroupName="1" Height="50"  Style="{StaticResource RegistrationRadioButton}">
-                            <TextBlock Text="Войти" FontSize="18" FontWeight="Medium"/>
+                        <RadioButton Name="AuthBtn" GroupName="1" Height="50"  Style="{StaticResource RegistrationRadioButton}" Checked="AuthBtn_Checked">
+                            <TextBlock Name="AuthBtnText" Text="Зарегистрироваться" FontSize="18" FontWeight="Medium"/>
                         </RadioButton>
                     </StackPanel>
                 </Grid>
@@ -87,8 +87,8 @@
                 <StackPanel Grid.Row="2" Margin="20">
                     <Border Background="Black" Margin="0,0,0,20" Height="2"/>
 
-                    <RadioButton GroupName="1" Height="50"  Style="{StaticResource RegistrationRadioButton}">
-                        <TextBlock Text="Зарегистрироваться" FontSize="18" FontWeight="Medium"/>
+                    <RadioButton Name="ChangeBtn" GroupName="1" Height="50"  Style="{StaticResource RegistrationRadioButton}" Click="ChangeBtn_Click">
+                        <TextBlock Name="TextRegBtn" Text="Зарегистрироваться" FontSize="18" FontWeight="Medium"/>
                     </RadioButton>
                 </StackPanel>
             </Grid>
