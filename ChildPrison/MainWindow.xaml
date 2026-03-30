@@ -61,6 +61,8 @@
                         <Border Background="White" 
                     BorderBrush="Black" BorderThickness="2" Margin="0,0,10,10">
 
+                            <Frame x:Name="PageFrame"/>
+
                         </Border>
                     </Grid>
                 </Grid>

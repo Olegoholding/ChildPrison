@@ -1,0 +1,89 @@
+﻿<Page x:Class="diplomApp.View.ListPage.ListPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:diplomApp.View.ListPage"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ListPage">
+
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Border BorderThickness="0,0,2,0" BorderBrush="Black" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Список детей" FontSize="24" 
+                       VerticalAlignment="Center" HorizontalAlignment="Center" 
+                       FontFamily="Arial Black" Margin="0,15,0,15"/>
+                <ListBox Grid.Row="1" x:Name="lbListOfPersons" BorderBrush="{x:Null}"/>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Border Padding="15" BorderThickness="0,0,0,2" BorderBrush="Black">
+                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <StackPanel Margin="0,0,0,15" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <TextBox x:Name="tbPersonName" Text="Иванов Александр Александрович" IsReadOnly="True" FontSize="34" MaxWidth="500" Background="Transparent" BorderThickness="0" TextWrapping="WrapWithOverflow" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <Button Width="40" Height="40" VerticalAlignment="Top" Margin="15,5,0,0"/>
+                    </StackPanel>
+                    <Border HorizontalAlignment="Left" Background="#63ff85" BorderBrush="Black" BorderThickness="2" Padding="2">
+                        <TextBox x:Name="tbPersonBirthday" Text="02.03.2022" IsReadOnly="True" Background="Transparent" BorderThickness="0" FontWeight="Medium" FontSize="24" Margin="50,0,50,0"/>
+                    </Border>
+                </StackPanel>
+
+            </Border>
+            <TextBlock x:Name="tbPersonID" FontWeight="Thin" Margin="15" Text="№ 1" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="24"/>
+
+            <Border Grid.Row="1" Padding="15">
+                <StackPanel>
+                    <TextBlock Text="Досье:" FontSize="24" 
+                       FontFamily="Arial Black" Margin="0,0,0,10"/>
+                    <WrapPanel Orientation="Horizontal">
+
+                        <local:Card BoxCaption="ФИО отца"
+                                    BoxValue="Майкл Де Санта"/>
+
+                        <local:Card BoxCaption="ФИО матери"
+                                    BoxValue="Ульяницкая Наталья Николаевна"/>
+
+                        <local:Card BoxCaption="Группа"
+                                    BoxValue="Вишенка"/>
+                        
+                        <local:Card BoxCaption="Табельный номер"
+                                    BoxValue="#341241"/>
+
+                        <local:Card BoxCaption="Дата приёма на работу"
+                                    BoxValue="12.12.2027"/>
+
+                        <local:Card BoxCaption="Общий стаж"
+                                    BoxValue="12 лет"/>
+
+                        <local:Card BoxCaption="Педагогический стаж"
+                                    BoxValue="10 лет"/>
+
+                        <local:Card BoxCaption="Стаж в учереждении"
+                                    BoxValue="2 года"/>
+
+                        <local:Card BoxCaption="Статус"
+                                    BoxValue="Шнырь"/>
+
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>
