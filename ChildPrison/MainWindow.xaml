@@ -8,7 +8,7 @@
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent" 
-        Title="MainWindow" Height="550" Width="900">
+        Title="MainWindow" Height="900" Width="1500">
 
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="5" ResizeBorderThickness="5"/>
@@ -48,10 +48,10 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel  Margin="20,15,0,20">
-                        <RadioButton x:Name="child" Content="СПИСОК ДЕТЕЙ" Style="{StaticResource MenuRadioButton}" Tag="#f15f60"/>
-                        <RadioButton Content="СПИСОК РАБЛОТНИКОВ" Style="{StaticResource MenuRadioButton}"/>
-                        <RadioButton Content="ПАНЕЛЬ АДМИНА" Style="{StaticResource MenuRadioButton}"/>
-                        <RadioButton Content="ПАНЕЛЬ ПИТАНИЯ" Style="{StaticResource MenuRadioButton}"/>
+                        <RadioButton x:Name="child" Content="СПИСОК ДЕТЕЙ" Style="{StaticResource MenuRadioButton}" Tag="#f15f60" Checked="child_Checked"/>
+                        <RadioButton Content="СПИСОК РАБОТНИКОВ" Style="{StaticResource MenuRadioButton}" Checked="RadioButton_Checked"/>
+                        <RadioButton Content="УПРАВЛЕНИЕ ГРУППАМИ" Style="{StaticResource MenuRadioButton}" Checked="RadioButton_Checked_1"/>
+                        <RadioButton Content="ПАНЕЛЬ ПИТАНИЯ" Style="{StaticResource MenuRadioButton}" Checked="RadioButton_Checked_2"/>
                     </StackPanel>
 
                     <Grid Grid.Column="1" Margin="20">
@@ -61,7 +61,7 @@
                         <Border Background="White" 
                     BorderBrush="Black" BorderThickness="2" Margin="0,0,10,10">
 
-                            <Frame x:Name="PageFrame"/>
+                            <Frame x:Name="PageFrame" NavigationUIVisibility="Hidden"/>
 
                         </Border>
                     </Grid>

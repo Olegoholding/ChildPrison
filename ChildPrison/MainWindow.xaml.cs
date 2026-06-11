@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using diplomApp.View.ListPage;
+using diplomApp.View;
 
 namespace ChildPrison
 {
@@ -9,7 +9,7 @@ namespace ChildPrison
         public MainWindow()
         {
             InitializeComponent();
-            PageFrame.Content = new ListPage();
+            PageFrame.Navigate(new ChildrenPage());
         }
         private void Border_MouseDown(object sender, MouseButtonEventArgs e) => DragMove();
         private void Button_Click(object sender, RoutedEventArgs e) => Close();
@@ -18,5 +18,25 @@ namespace ChildPrison
             WindowState = WindowState == WindowState.Maximized
                 ? WindowState.Normal
                 : WindowState.Maximized;
+
+        private void child_Checked(object sender, RoutedEventArgs e)
+        {
+            PageFrame.Navigate(new ChildrenPage());
+        }
+
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            PageFrame.Navigate(new EmployeesPage());
+        }
+
+        private void RadioButton_Checked_1(object sender, RoutedEventArgs e)
+        {
+            PageFrame.Navigate(new GroupsPage());
+        }
+
+        private void RadioButton_Checked_2(object sender, RoutedEventArgs e)
+        {
+            PageFrame.Navigate(new NutritionPage());
+        }
     }
 }

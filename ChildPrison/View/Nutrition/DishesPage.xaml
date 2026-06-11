@@ -1,0 +1,224 @@
+﻿<Page x:Class="diplomApp.View.Nutrition.DishesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      d:DesignHeight="800" d:DesignWidth="1200"
+      Title="DishesPage"
+      Background="White">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Левая панель - список блюд -->
+        <Border BorderThickness="0,0,2,0" BorderBrush="#1a1a1a" Background="#fafafa">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="БЛЮДА" FontSize="20" FontWeight="Black" 
+                           HorizontalAlignment="Center" Margin="0,15,0,10"/>
+
+                <Button Grid.Row="1" Content="+ НОВОЕ БЛЮДО"
+                        Background="#1a1a1a" Foreground="White" FontWeight="Bold"
+                        Padding="15,10" Margin="15,0,15,15" Cursor="Hand"
+                        Click="AddDish_Click">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" BorderThickness="2" BorderBrush="#1a1a1a">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#333333"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="RenderTransform">
+                                        <Setter.Value>
+                                            <TranslateTransform X="2" Y="2"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+                <TextBox Grid.Row="2" x:Name="SearchBox" VerticalContentAlignment="Center"
+                         BorderThickness="2" BorderBrush="#1a1a1a" 
+                         Padding="8,6" Margin="15,5,15,15"
+                         TextChanged="SearchBox_TextChanged"/>
+
+                <ListBox Grid.Row="3" x:Name="DishesListBox" 
+                         Background="Transparent" 
+                         BorderThickness="0"
+                         SelectionChanged="DishesListBox_SelectionChanged">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="0,0,0,1" BorderBrush="#ddd" Padding="12,10">
+                                <StackPanel>
+                                    <TextBlock FontWeight="Black" FontSize="14" Text="{Binding DishName}"/>
+                                    <TextBlock FontSize="11" Foreground="#666" TextWrapping="Wrap">
+                                        <Run Text="СОСТАВ: "/>
+                                        <Run Text="{Binding IngredientsList, Mode=OneWay, FallbackValue='НЕТ ИНГРЕДИЕНТОВ'}"/>
+                                    </TextBlock>
+                                    <TextBlock FontSize="11" Foreground="#666">
+                                        <Run Text="В МЕНЮ: "/>
+                                        <Run Text="{Binding MenusCount, Mode=OneWay, FallbackValue='0'}"/>
+                                        <Run Text=" раз"/>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                                    </ListBox>
+            </Grid>
+        </Border>
+
+        <!-- Правая панель - форма -->
+        <Border Grid.Column="1" Background="White">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="25">
+                    <TextBlock x:Name="TitleText" Text="ИНФОРМАЦИЯ О БЛЮДЕ"
+                               FontSize="18" FontWeight="Black" Margin="0,15,0,25"/>
+
+                    <!-- Основная информация -->
+                    <Border BorderThickness="2" BorderBrush="#1a1a1a" Padding="20" Margin="0,0,0,20">
+                        <StackPanel>
+                            <TextBlock Text="НАЗВАНИЕ БЛЮДА:" FontWeight="Bold" FontSize="12"/>
+                            <TextBox x:Name="DishNameBox" BorderThickness="2" BorderBrush="#1a1a1a"  VerticalContentAlignment="Center"
+                                     Padding="8,6" Margin="0,5,0,15"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Состав блюда -->
+                    <Border BorderThickness="2" BorderBrush="#1a1a1a" Padding="20" Margin="0,0,0,20">
+                        <StackPanel>
+                            <TextBlock Text="СОСТАВ БЛЮДА" FontWeight="Black" FontSize="12" Margin="0,0,0,10"/>
+                            <TextBlock Text="* Выберите продукты и укажите количество" FontSize="10" Foreground="#666" Margin="0,-5,0,10"/>
+
+                            <DataGrid x:Name="IngredientsDataGrid" Style="{StaticResource BrutalistDataGrid}"
+                                      AutoGenerateColumns="False"
+                                      BorderThickness="2"
+                                      BorderBrush="#1a1a1a"
+                                      Height="200"
+                                      Margin="0,5,0,10">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="ПРОДУКТ" Binding="{Binding Product.ProductName}" Width="*" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="КОЛИЧЕСТВО" Binding="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
+                                    <DataGridTextColumn Header="ЕД.ИЗМ." Binding="{Binding Unit}" Width="100"/>
+                                    <DataGridTemplateColumn Header=" " Width="40">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Content="✖" Background="Transparent" BorderThickness="0" 
+                                                        Foreground="#cc3333" FontWeight="Bold" Cursor="Hand"
+                                                        Click="RemoveIngredient_Click" Tag="{Binding}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <Grid Margin="0,5,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="80"/>
+                                </Grid.ColumnDefinitions>
+                                <ComboBox Grid.Column="0" x:Name="AddProductComboBox" VerticalContentAlignment="Center"
+                                          DisplayMemberPath="ProductName" 
+                                          SelectedValuePath="Id"/>
+                                <TextBox Grid.Column="1" x:Name="AddQuantityBox" VerticalContentAlignment="Center"
+                                         BorderThickness="2" BorderBrush="#1a1a1a"
+                                         Margin="5,0" Text="1" TextAlignment="Center"/>
+                                <ComboBox Grid.Column="2" x:Name="AddUnitComboBox" SelectedIndex="0" Margin="5,0" VerticalContentAlignment="Center">
+                                    <ComboBoxItem Content="г"/>
+                                    <ComboBoxItem Content="кг"/>
+                                    <ComboBoxItem Content="мл"/>
+                                    <ComboBoxItem Content="л"/>
+                                    <ComboBoxItem Content="шт"/>
+                                </ComboBox>
+                                <Button Grid.Column="3" Content="ДОБАВИТЬ" 
+                                        Background="#1a1a1a" Foreground="White" FontWeight="Bold"
+                                        Click="AddIngredient_Click">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}" BorderThickness="2" BorderBrush="#1a1a1a">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter Property="RenderTransform">
+                                                        <Setter.Value>
+                                                            <TranslateTransform X="2" Y="2"/>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Кнопки -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="СОХРАНИТЬ" Background="#1a1a1a" Foreground="White"
+                                FontWeight="Black" Padding="20,10" Width="120" Margin="0,0,10,0" Height="50"
+                                Click="SaveDish_Click">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" BorderThickness="2" BorderBrush="#1a1a1a">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter Property="RenderTransform">
+                                                <Setter.Value>
+                                                    <TranslateTransform X="2" Y="2"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        <Button x:Name="DeleteButton" Content="УДАЛИТЬ" Background="#cc3333" Foreground="White"
+                                FontWeight="Black" Padding="20,10" Width="120" Visibility="Collapsed"
+                                Click="DeleteDish_Click">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" BorderThickness="2" BorderBrush="#1a1a1a">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter Property="RenderTransform">
+                                                <Setter.Value>
+                                                    <TranslateTransform X="2" Y="2"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </StackPanel>
+
+                    <TextBlock x:Name="StatusText" Foreground="#cc3333" FontWeight="Bold" 
+                               Margin="0,15,0,0" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</Page>

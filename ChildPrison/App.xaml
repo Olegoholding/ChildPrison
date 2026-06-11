@@ -7,6 +7,9 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Style/Buttons.xaml"/>
+                <ResourceDictionary Source="/Style/ListBox.xaml"/>
+                <ResourceDictionary Source="/Style/ComboBox.xaml"/>
+                <ResourceDictionary Source="/Style/DataGrid.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
