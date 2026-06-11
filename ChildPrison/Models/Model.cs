@@ -202,7 +202,6 @@ namespace ChildPrison.Models
         [ForeignKey("SupplierId")]
         public virtual Supplier Supplier { get; set; }
 
-        //public virtual ICollection<Dish> Dishes { get; set; } = new List<Dish>();
     }
 
     [Table("suppliers")]
@@ -298,6 +297,13 @@ namespace ChildPrison.Models
         [Column("meal_time")]
         [MaxLength(50)]
         public string MealTime { get; set; }
+
+        [Column("day_of_week")]
+        [MaxLength(2)]
+        public string DayOfWeek { get; set; }
+
+        [Column("order")]
+        public int Order { get; set; }
 
         [ForeignKey("DishId")]
         public virtual Dish Dish { get; set; }

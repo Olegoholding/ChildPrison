@@ -35,7 +35,6 @@ namespace diplomApp.View.Nutrition
             {
                 _context = new DataContext();
 
-                // Загрузка блюд с ингредиентами и меню
                 var dishes = _context.Dishes
                     .Include(d => d.Menus)
                     .Include(d => d.DishProducts)
@@ -43,10 +42,8 @@ namespace diplomApp.View.Nutrition
                     .ToList();
                 DishesListBox.ItemsSource = dishes;
 
-                // Загрузка всех продуктов
                 _allProducts = _context.Products.ToList();
 
-                // Загрузка для добавления ингредиентов
                 AddProductComboBox.ItemsSource = _allProducts;
                 AddProductComboBox.DisplayMemberPath = "ProductName";
                 AddProductComboBox.SelectedValuePath = "Id";
@@ -141,7 +138,6 @@ namespace diplomApp.View.Nutrition
             var product = AddProductComboBox.SelectedItem as Product;
             if (product == null) return;
 
-            // Проверяем, не добавлен ли уже этот продукт
             if (_ingredients.Any(i => i.ProductId == product.Id))
             {
                 StatusText.Text = "ЭТОТ ПРОДУКТ УЖЕ ДОБАВЛЕН!";
@@ -217,17 +213,15 @@ namespace diplomApp.View.Nutrition
                     _context.Entry(_currentDish).State = EntityState.Modified;
                     _context.SaveChanges();
 
-                    // Удаляем старые связи с продуктами
                     var oldIngredients = _context.DishProducts.Where(dp => dp.DishId == _currentDish.Id).ToList();
                     _context.DishProducts.RemoveRange(oldIngredients);
                     _context.SaveChanges();
                 }
 
-                // Добавляем новые ингредиенты
                 foreach (var ingredient in _ingredients)
                 {
                     ingredient.DishId = _currentDish.Id;
-                    ingredient.Id = 0; // Сбрасываем ID для нового добавления
+                    ingredient.Id = 0; 
                     _context.DishProducts.Add(ingredient);
                 }
                 _context.SaveChanges();
@@ -282,15 +276,12 @@ namespace diplomApp.View.Nutrition
 
             try
             {
-                // Удаляем связи с ингредиентами
                 var ingredients = _context.DishProducts.Where(dp => dp.DishId == _currentDish.Id).ToList();
                 _context.DishProducts.RemoveRange(ingredients);
 
-                // Удаляем связи с меню
                 var menuItems = _context.Menus.Where(m => m.DishId == _currentDish.Id).ToList();
                 _context.Menus.RemoveRange(menuItems);
 
-                // Удаляем блюдо
                 _context.Dishes.Remove(_currentDish);
                 _context.SaveChanges();
 

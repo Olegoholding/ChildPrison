@@ -100,7 +100,6 @@ namespace diplomApp.View
                 TeacherComboBox.SelectedIndex = -1;
             }
 
-            // Выбор детей в группе
             ChildrenListBox.SelectedItems.Clear();
             if (_currentGroup.Children != null && _currentGroup.Children.Any())
             {
@@ -147,7 +146,6 @@ namespace diplomApp.View
                     _isNewGroup = true;
                 }
 
-                // Валидация
                 if (string.IsNullOrWhiteSpace(GroupNameBox.Text))
                 {
                     StatusText.Text = "ЗАПОЛНИТЕ НАЗВАНИЕ ГРУППЫ!";
@@ -155,11 +153,9 @@ namespace diplomApp.View
                     return;
                 }
 
-                // Заполнение данных группы
                 _currentGroup.GroupName = GroupNameBox.Text.Trim();
                 _currentGroup.RoomNumber = string.IsNullOrWhiteSpace(RoomNumberBox.Text) ? null : RoomNumberBox.Text.Trim();
 
-                // Выбор воспитателя
                 if (TeacherComboBox.SelectedValue != null && int.TryParse(TeacherComboBox.SelectedValue.ToString(), out int teacherId))
                 {
                     _currentGroup.TeacherId = teacherId;
@@ -169,7 +165,6 @@ namespace diplomApp.View
                     _currentGroup.TeacherId = null;
                 }
 
-                // Сохранение группы
                 if (_isNewGroup)
                 {
                     _context.Groups.Add(_currentGroup);
@@ -181,13 +176,11 @@ namespace diplomApp.View
                     _context.SaveChanges();
                 }
 
-                // Обновляем детей в группе
                 UpdateGroupChildren();
 
                 StatusText.Text = _isNewGroup ? "ГРУППА УСПЕШНО ДОБАВЛЕНА!" : "ДАННЫЕ СОХРАНЕНЫ!";
                 StatusText.Foreground = System.Windows.Media.Brushes.Green;
 
-                // Обновление данных
                 LoadData();
 
                 var savedGroup = _context.Groups
@@ -216,19 +209,15 @@ namespace diplomApp.View
         {
             try
             {
-                // Получаем выбранных детей из списка
                 var selectedChildren = ChildrenListBox.SelectedItems.Cast<Child>().ToList();
                 var selectedChildIds = selectedChildren.Select(c => c.Id).ToList();
 
-                // Получаем всех детей
                 var allChildren = _context.Children.ToList();
 
-                // Обновляем group_id у детей
                 foreach (var child in allChildren)
                 {
                     if (selectedChildIds.Contains(child.Id))
                     {
-                        // Ребёнок должен быть в этой группе
                         if (child.GroupId != _currentGroup.Id)
                         {
                             child.GroupId = _currentGroup.Id;
@@ -237,10 +226,9 @@ namespace diplomApp.View
                     }
                     else
                     {
-                        // Ребёнок не должен быть в этой группе
                         if (child.GroupId == _currentGroup.Id)
                         {
-                            child.GroupId = 0; // или null, в зависимости от вашей БД
+                            child.GroupId = 0;
                             _context.Entry(child).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                         }
                     }
@@ -258,7 +246,6 @@ namespace diplomApp.View
         {
             if (_currentGroup == null || _isNewGroup) return;
 
-            // Проверяем, есть ли дети в группе
             var childrenCount = _context.Children.Count(c => c.GroupId == _currentGroup.Id);
 
             if (childrenCount > 0)
@@ -284,7 +271,6 @@ namespace diplomApp.View
 
             try
             {
-                // Отвязываем детей от группы
                 var childrenInGroup = _context.Children.Where(c => c.GroupId == _currentGroup.Id).ToList();
                 foreach (var child in childrenInGroup)
                 {
@@ -293,7 +279,6 @@ namespace diplomApp.View
                 }
                 _context.SaveChanges();
 
-                // Удаляем группу
                 _context.Groups.Remove(_currentGroup);
                 _context.SaveChanges();
 

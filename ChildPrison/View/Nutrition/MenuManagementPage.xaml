@@ -53,12 +53,46 @@
                 <Button Grid.Column="1" Content="СОХРАНИТЬ МЕНЮ" 
                         Background="#1a1a1a" Foreground="White" FontWeight="Bold"
                         Padding="20,10" Margin="10,0" Cursor="Hand"
-                        Click="Button_Click"/>
+                        Click="SaveMenu_Click">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" BorderThickness="2" BorderBrush="#1a1a1a">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15,0"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="RenderTransform">
+                                        <Setter.Value>
+                                            <TranslateTransform X="2" Y="2"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
 
-                <Button Grid.Column="2" Content="КОПИРОВАТЬ С ПОНЕДЕЛЬНИКА" 
+                <Button Grid.Column="2" Content="ЭКСПОРТ В PDF" 
                         Background="#333333" Foreground="White" FontWeight="Bold"
-                        Padding="20,10" Margin="0,0,10,0" Cursor="Hand"
-                        Click="Button_Click_1"/>
+                        Padding="20, 0" Margin="0,0,10,0" Cursor="Hand"
+                        Click="ExportToPdf_Click">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" BorderThickness="2" BorderBrush="#1a1a1a">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15,0"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="RenderTransform">
+                                        <Setter.Value>
+                                            <TranslateTransform X="2" Y="2"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
             </Grid>
         </Border>
 

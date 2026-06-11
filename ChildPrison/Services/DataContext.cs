@@ -20,7 +20,7 @@ namespace diplomApp.Services
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connectionString = "server=127.0.0.1;uid=root;pwd=root;database=childprison";
+            string connectionString = "server=95.183.12.18;uid=nikita;pwd=strong_password;database=Lider";
             optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         }
     }

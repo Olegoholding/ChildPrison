@@ -31,13 +31,11 @@ namespace diplomApp.View
             {
                 _context = new DataContext();
 
-                // Загрузка сотрудников со статусами
                 var employees = _context.Employees
                     .Include(e => e.Status)
                     .ToList();
                 EmployeesListBox.ItemsSource = employees;
 
-                // Загрузка статусов для выпадающего списка
                 var statuses = _context.EmployeeStatuses.ToList();
                 StatusComboBox.ItemsSource = statuses;
                 StatusComboBox.DisplayMemberPath = "StatusName";
@@ -67,7 +65,6 @@ namespace diplomApp.View
                     TitleText.Text = "ИНФОРМАЦИЯ О СОТРУДНИКЕ";
                     StatusText.Text = "";
 
-                    // Проверяем профессию и показываем/скрываем блок с группами
                     CheckProfessionAndShowGroups();
                 }
             }
@@ -91,7 +88,6 @@ namespace diplomApp.View
             EducationBox.Text = _currentEmployee.Education;
             HireDatePicker.SelectedDate = _currentEmployee.HireDate;
 
-            // Выбор статуса по ID
             if (_currentEmployee.StatusId.HasValue && _currentEmployee.StatusId.Value > 0)
             {
                 StatusComboBox.SelectedValue = _currentEmployee.StatusId.Value;
@@ -154,19 +150,15 @@ namespace diplomApp.View
             {
                 if (_currentEmployee == null) return;
 
-                // Загружаем ВСЕ группы (не только закреплённые)
                 var allGroups = _context.Groups.ToList();
 
-                // Находим ID групп, где этот сотрудник является воспитателем
                 var teacherGroupIds = _context.Groups
                     .Where(g => g.TeacherId == _currentEmployee.Id)
                     .Select(g => g.Id)
                     .ToList();
 
-                // Обновляем источник данных для списка групп
                 GroupsListBox.ItemsSource = allGroups;
 
-                // Выделяем группы, которые ведёт воспитатель
                 GroupsListBox.SelectedItems.Clear();
                 foreach (var group in allGroups)
                 {
@@ -220,7 +212,6 @@ namespace diplomApp.View
                     _isNewEmployee = true;
                 }
 
-                // Валидация
                 if (string.IsNullOrWhiteSpace(LastNameBox.Text) ||
                     string.IsNullOrWhiteSpace(FirstNameBox.Text) ||
                     string.IsNullOrWhiteSpace(MidNameBox.Text))
@@ -230,7 +221,6 @@ namespace diplomApp.View
                     return;
                 }
 
-                // Заполнение данных сотрудника
                 _currentEmployee.LastName = LastNameBox.Text.Trim();
                 _currentEmployee.FirstName = FirstNameBox.Text.Trim();
                 _currentEmployee.MidName = MidNameBox.Text.Trim();
@@ -238,7 +228,6 @@ namespace diplomApp.View
                 _currentEmployee.Education = string.IsNullOrWhiteSpace(EducationBox.Text) ? null : EducationBox.Text.Trim();
                 _currentEmployee.HireDate = HireDatePicker.SelectedDate;
 
-                // Выбор статуса
                 if (StatusComboBox.SelectedValue != null && int.TryParse(StatusComboBox.SelectedValue.ToString(), out int statusId))
                 {
                     _currentEmployee.StatusId = statusId;
@@ -248,7 +237,6 @@ namespace diplomApp.View
                     _currentEmployee.StatusId = null;
                 }
 
-                // Сохранение сотрудника
                 if (_isNewEmployee)
                 {
                     _context.Employees.Add(_currentEmployee);
@@ -260,7 +248,6 @@ namespace diplomApp.View
                     _context.SaveChanges();
                 }
 
-                // Обновляем закреплённые группы (только если воспитатель)
                 if (_currentEmployee.Profession != null && _currentEmployee.Profession.ToLower().Contains("воспитатель"))
                 {
                     UpdateTeacherGroups();
@@ -273,7 +260,6 @@ namespace diplomApp.View
                 StatusText.Text = _isNewEmployee ? "СОТРУДНИК УСПЕШНО ДОБАВЛЕН!" : "ДАННЫЕ СОХРАНЕНЫ!";
                 StatusText.Foreground = System.Windows.Media.Brushes.Green;
 
-                // Обновление данных
                 LoadData();
 
                 var savedEmployee = _context.Employees
@@ -298,24 +284,19 @@ namespace diplomApp.View
             }
         }
 
-        // НОВЫЙ МЕТОД: Обновление групп через TeacherId
         private void UpdateTeacherGroups()
         {
             try
             {
-                // Получаем выбранные группы из списка
                 var selectedGroups = GroupsListBox.SelectedItems.Cast<Group>().ToList();
                 var selectedGroupIds = selectedGroups.Select(g => g.Id).ToList();
 
-                // Получаем все группы
                 var allGroups = _context.Groups.ToList();
 
-                // Для каждой группы обновляем TeacherId
                 foreach (var group in allGroups)
                 {
                     if (selectedGroupIds.Contains(group.Id))
                     {
-                        // Если группа выбрана - назначаем текущего сотрудника воспитателем
                         if (group.TeacherId != _currentEmployee.Id)
                         {
                             group.TeacherId = _currentEmployee.Id;
@@ -324,7 +305,6 @@ namespace diplomApp.View
                     }
                     else
                     {
-                        // Если группа не выбрана - убираем воспитателя (только если это текущий сотрудник)
                         if (group.TeacherId == _currentEmployee.Id)
                         {
                             group.TeacherId = null;
@@ -343,7 +323,6 @@ namespace diplomApp.View
             }
         }
 
-        // НОВЫЙ МЕТОД: Очистка групп (убираем TeacherId)
         private void ClearTeacherGroups()
         {
             try
@@ -380,7 +359,6 @@ namespace diplomApp.View
             {
                 try
                 {
-                    // Сначала очищаем TeacherId в группах
                     var groupsWithThisTeacher = _context.Groups
                         .Where(g => g.TeacherId == _currentEmployee.Id)
                         .ToList();
@@ -392,7 +370,6 @@ namespace diplomApp.View
                     }
                     _context.SaveChanges();
 
-                    // Удаляем сотрудника
                     _context.Employees.Remove(_currentEmployee);
                     _context.SaveChanges();
 
